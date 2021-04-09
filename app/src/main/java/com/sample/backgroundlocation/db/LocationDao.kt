@@ -7,9 +7,12 @@ import androidx.room.Query
 
 @Dao
 interface LocationDao {
-    @Query("SELECT * FROM location_data")
-    suspend fun getAll(id: Long): LocationEntity?
+    @Query("SELECT * FROM locationdata")
+    suspend fun getAll(): List<LocationData>
+
+    @Query("SELECT * FROM locationdata WHERE created_at BETWEEN :start AND :end")
+    suspend fun fetchAllData(start: Long, end: Long): List<LocationData>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(director: LocationEntity): Long
+    suspend fun insert(director: LocationData): Long
 }
